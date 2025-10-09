@@ -1,0 +1,8 @@
+pdfplumber
+python-docx
+pillow
+pytesseract
+spacy
+regex
+scikit-learn
+joblib
