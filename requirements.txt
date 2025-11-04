@@ -6,3 +6,4 @@ spacy
 regex
 scikit-learn
 joblib
+PyMuPDF
