@@ -1,157 +1,226 @@
-<h1> Intelligent Job Application Tracker & Analyzer  </h1>
+#  Intelligent Job Application Tracker & Analyzer
 
-## 📌 Overview
+A full-stack intelligent system that tracks job applications and analyzes resumes/job descriptions using NLP, PySpark, and a distributed AWS-based cloud architecture.
+It identifies skill gaps, calculates match scores, and recommends better job opportunities.
 
-**Intelligent Job Application Tracker & Analyzer** is an AI-powered tool designed to help job seekers:
+# Overview
 
-✔ Track job applications  
-✔ Analyze job descriptions  
-✔ Match resumes with job requirements  
-✔ Identify missing skills  
-✔ Recommend better job opportunities  
+The Intelligent Job Application Tracker & Analyzer helps job seekers streamline their job-search workflow by:
 
-Using **Natural Language Processing (NLP)**, the system compares your resume with job descriptions to provide insights such as **match score**, **missing skills**, and **keyword importance**.
+Tracking all job applications in one place
 
----
+Analyzing resume content
 
-## ✨ Features
+Matching resumes against job descriptions
 
-### 🔍 Resume & Job Description Analysis
-- Extracts skills, entities, and key terms using NLP models.
-- Uses pretrained `.joblib` models.
+Highlighting missing skills
 
-### 📊 Skill Gap Detection
-- Detects missing skills based on job requirements.
+Providing insights to improve resumes and job targeting
 
-### 🧮 Match Score Calculation
-- Converts resume & JD into vector representations.
-- Uses cosine similarity to compute match percentage.
+The project uses a hybrid architecture combining Next.js, Spring Boot, PySpark, and AWS services.
 
-### 📁 Application Tracking
-- Track all job applications (company, role, status, link, etc.).
+#  Features
+## 1. Resume Upload & Parsing
 
-### 🧪 Model Experiments
-- Jupyter Notebook (`full_model.ipynb`) for training and evaluating models.
+Upload PDF/DOCX resumes
 
----
+Extract text using NLP + PySpark
 
-## 🧠 How It Works
+Convert extracted content to structured JSON (stored in MongoDB)
 
-### **1. Resume & JD Parsing**
-- Extracts key sections and skills using NLP (`resume_entities.joblib`).
+## 2. Job Description Analysis
 
-### **2. Preprocessing**
-- Text cleaning  
-- Tokenization  
-- Vectorization (TF-IDF, Bag-of-Words)
+Add job links or paste job descriptions
 
-### **3. Feature Matching**
-Converts resume and job description into numerical vectors.
+Extract required skills, keywords, important phrases
 
-### **4. Similarity Score**
-Uses **cosine similarity** to compute match score.
+Store job details in PostgreSQL
 
-### **5. Output**
-- Match percentage  
-- Missing skills  
-- Keyword importance  
-- Recommendations  
+## 3. Resume vs Job Matching
 
----
+PySpark calculates:
 
-## 🧰 Tech Stack
+Match percentage
 
-### 🔙 Backend / Core
-- Python 3+
-- spaCy  
-- NLTK  
-- scikit-learn  
-- joblib
+Missing skills
 
-### 🛠 Development Tools
-- Jupyter Notebook  
-- VS Code  
-- Pandas  
-- NumPy  
+Important keywords
 
-### 📦 Dependencies  
-All dependencies are listed in:
-    requirements.txt
+Recommendations for improvement
 
+## 4. Job Application Tracking
 
----
+Track applied jobs
 
-## 📂 Project Structure
-.
-├── app.py # Main script for processing resume & JDs </br>
-├── parser.py # Parsing logic </br>
-├── joblib_loader.py # Loads trained NLP/ML models </br>
-├── full_model.ipynb # Notebook for experiments and model building </br>
-├── requirements.txt # Dependencies </br>
-├── resume_entities.joblib # Trained model used for entity extraction </br>
-└── sample-data/ # (Optional) Resume & JD examples </br>
+Status updates:
 
+Applied
 
----
+Interview
 
-## 🚀 Getting Started
+Rejected
 
-### 1️⃣ Clone the Project
+Offer
 
-git clone https://github.com/AmanMomin2207/Intelligent-Job-Application-Tracker.git </br>
-cd Intelligent-Job-Application-Tracker
+Filter jobs by status/company
 
-2️⃣ Create Virtual Environment (Optional) </br>
-python -m venv venv </br>
-source venv/bin/activate </br>    
-Windows: venv\Scripts\activate </br>
+## 5. Admin Dashboard
 
-3️⃣ Install Dependencies
-pip install -r requirements.txt </br>
+View all uploaded resumes
 
-4️⃣ Run the Project
-python app.py </br>
+Monitor NLP processing pipeline
 
-OR open the Jupyter Notebook: </br>
+Browse all job applications and match results
 
-jupyter notebook
+## 6. Cloud-Based Processing
 
-<h2> Usage </h2>
-Running Resume + Job Description Matching </br>
+Resume files stored in AWS S3
 
-Add your resume text file and job description text file. </br>
+Upload triggers AWS Lambda → EMR PySpark job
 
-Update file paths in app.py: </br>
-resume_path = "resume.txt" </br>
-jd_path = "job.txt" </br>
+Processed results stored in MongoDB & PostgreSQL
 
+# Tech Stack
+## Frontend
 
-Run the script:
-python app.py
+Next.js
 
-Output Includes:
-Match Score (%)
-Missing Skills
-Extracted Keywords
-Recommended Improvements
+Job list UI
 
-<h2> Future Enhancements </h2>
+Analytics dashboard
 
-💡 Full web-based dashboard (Next.js) </br>
-💡 Database support (PostgreSQL / MongoDB) </br>
-💡 Export results as PDF </br>
-💡 Auto-scan job portals </br>
-💡 Transformer-based NLP (BERT/RoBERTa) </br>
-💡 OCR-based PDF extraction </br>
+Resume viewer
 
-<h2> Known Limitations </h2>
+Filters, charts, match scores
 
-⚠ Works best for English resumes & job descriptions </br> 
-⚠ Accuracy depends on input formatting </br>
-⚠ No UI — currently CLI/Notebook-based </br>
-⚠ NLP model may require fine-tuning for better accuracy </br>
+## Backend
 
-<h2> Contributing </h2>
+Spring Boot (Java)
 
-Contributions are welcome! </br>
-Feel free to submit issues, feature requests, or pull requests. </br>
+RESTful CRUD APIs
+
+Authentication
+
+Connects to PostgreSQL & MongoDB
+
+Processing Layer
+
+## PySpark
+
+Resume parsing
+
+Keyword extraction
+
+JD–resume matching
+
+NLP (TF-IDF, cosine similarity, ML models)
+
+## Databases
+
+PostgreSQL – job data
+
+MongoDB – parsed resume JSON
+
+## AWS Infrastructure
+
+S3 – resume storage
+
+RDS – PostgreSQL
+
+EMR – PySpark jobs
+
+Lambda – triggers Spark pipeline automatically
+
+# How It Works (Architecture Flow)
+## 1. User Uploads Resume
+
+Resume uploaded through Next.js frontend
+
+File stored in AWS S3
+
+## 2. AWS Lambda Trigger
+
+S3 upload triggers Lambda
+
+Lambda triggers EMR Spark job
+
+## 3. PySpark Resume Processing
+
+EMR Spark pipeline runs:
+
+Text extraction
+
+NLP preprocessing
+
+Skill & keyword extraction
+
+JSON generation
+
+JSON saved in MongoDB
+
+## 4. Job Description Storage
+
+User provides job links or descriptions
+
+Parsed & stored in PostgreSQL
+
+## 5. Resume–JD Matching
+
+PySpark calculates:
+
+Match score
+
+Skill gaps
+
+Keyword overlap
+
+Results saved in PostgreSQL
+
+## 6. Frontend Visualization
+
+Next.js dashboard displays:
+
+Match percentage
+
+Missing skills
+
+Resume insights
+
+Job timeline & application tracking
+
+# Completed Work Till Now
+## 1. Streamlit GUI Prototype Created
+    
+Demonstrates NLP workflow
+
+Shows resume parsing & skill extraction
+
+Acts as POC for ML pipeline
+
+## 2. Repository Structure Organized
+
+Added folders for backend, frontend, PySpark processing
+
+Initial documentation prepared
+
+## 3. Sample Resume Parsing (Local)
+
+Resume text extraction
+
+Preprocessing pipeline
+
+Keyword extraction demo
+
+## 4. Research Completed
+
+Explored JD–resume matching techniques
+
+Finalized TF-IDF + cosine similarity approach
+
+Designed AWS pipeline (S3 → Lambda → EMR → Databases)
+
+## 5. Initial Database Schema Drafted
+
+Mongo schema for resume JSON
+
+PostgreSQL schema for job applications
